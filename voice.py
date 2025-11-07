@@ -1453,8 +1453,9 @@ def health_check():
         'message': 'AI Shopping Assistant API is running',
         'openai_configured': bool(os.getenv('OPENAI_API_KEY'))
     })
-
 if __name__ == '__main__':
+    import os
+
     print("=" * 60)
     print("🤖 Starting AI Shopping Assistant API...")
     print("=" * 60)
@@ -1472,8 +1473,36 @@ if __name__ == '__main__':
         print("   Set your API key in .env file for full AI features.")
     else:
         print("✅ OpenAI API key found!")
-    
-    print("\n🚀 Server starting on http://localhost:5000")
+
+    # Use PORT environment variable if available (Render, Heroku, etc.)
+    port = int(os.environ.get('PORT', 5000))
+    host = '0.0.0.0'  # Bind to all network interfaces
+
+    print(f"\n🚀 Server starting on http://{host}:{port}")
     print("=" * 60 + "\n")
+
+    app.run(debug=True, host=host, port=port)
+
+# if __name__ == '__main__':
+#     print("=" * 60)
+#     print("🤖 Starting AI Shopping Assistant API...")
+#     print("=" * 60)
+#     print("\nAvailable endpoints:")
+#     print("  GET  /api/health        - Health check")
+#     print("  POST /api/chat          - Chat with AI")
+#     print("  GET  /api/products      - Get all products")
+#     print("  GET  /api/products/<id> - Get specific product")
+#     print("  POST /api/send-email    - Send product details")
+#     print("  POST /api/reset         - Reset conversation")
+#     print("\n" + "=" * 60)
     
-    app.run(debug=True, port=5000)
+#     if not os.getenv('OPENAI_API_KEY'):
+#         print("⚠️  WARNING: OPENAI_API_KEY not found in environment!")
+#         print("   Set your API key in .env file for full AI features.")
+#     else:
+#         print("✅ OpenAI API key found!")
+    
+#     print("\n🚀 Server starting on http://localhost:5000")
+#     print("=" * 60 + "\n")
+    
+#     app.run(debug=True, port=5000)
